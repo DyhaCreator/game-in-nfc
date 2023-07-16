@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <title>game</title>
+    </head>
+    <body>
+
+        <canvas id="canvas"></canvas>
+        <button class="button1 up" id="up">↑</button>
+        <button class="button1 down" id="down">↓</button>
+        <button class="button2 left" id="left">←</button>
+        <button class="button2 right" id="right">→</button>
+
+        <script>
+            var
+                buttonUp = document.getElementById('up'),
+                buttonDown = document.getElementById('down'),
+                buttonLeft = document.getElementById('left'),
+                buttonRight = document.getElementById('right'),
+                canv = document.getElementById('canvas'),
+                ctx = canv.getContext('2d');
+            
+            canv.width = 500;
+            canv.height = 500;
+            
+            let px = [];
+            let py = [];
+            let direction = 0;
+            var pixel_size = 25;
+            let appleX = Math.floor(Math.random() * canv.width / pixel_size);
+            let appleY = Math.floor(Math.random() * canv.height / pixel_size);
+
+            px.push(canv.width / pixel_size / 2);
+            py.push(canv.height / pixel_size / 2);
+
+            console.log(px);
+            console.log(py);
+
+            buttonUp.onclick = function(){
+                direction = 0;
+            };
+
+            buttonDown.onclick = function(){
+                direction = 1;
+            };
+
+            buttonLeft.onclick = function(){
+                direction = 2;
+            };
+
+            buttonRight.onclick = function(){
+                direction = 3;
+            };
+
+            let interval = setInterval(function(){
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canv.width, canv.height);
+                for(let i = 0; i < py.length; i ++){
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillRect(px[i] * pixel_size, py[i] * pixel_size, pixel_size, pixel_size);
+                }
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(appleX * pixel_size, appleY * pixel_size, pixel_size, pixel_size);
+                console.log(direction);
+                if(direction == 0){
+                    px.unshift(px[0]);
+                    py.unshift(py[0] - 1);
+                }
+                if(direction == 1){
+                    px.unshift(px[0]);
+                    py.unshift(py[0] + 1);
+                }
+                if(direction == 2){
+                    px.unshift(px[0] - 1);
+                    py.unshift(py[0]);
+                }
+                if(direction == 3){
+                    px.unshift(px[0] + 1);
+                    py.unshift(py[0]);
+                    
+                }
+                for(let i = 1; i < px.length; i++){
+                    if(px[0] == px[i] && py[0] == py[i]){
+                        clearInterval(interval);
+                    }
+                }
+                if(px[0] < 0 || py[0] < 0 || px[0] > canv.width / pixel_size || py[0] > canv.height / pixel_size){
+                    clearInterval(interval);
+                }
+                if(px[0] == appleX && py[0] == appleY){
+                    appleX = Math.floor(Math.random() * canv.width / pixel_size);
+                    appleY = Math.floor(Math.random() * canv.height / pixel_size);
+                }
+                else{
+                    px.pop();
+                    py.pop();
+                }
+            }, 250);
+        </script>
+
+        <style>
+            .button1{
+                position:absolute;
+                width: 100;
+                height: 50;
+            }
+            .button2{
+                position:absolute;
+                width: 100;
+                height: 100;
+            }
+            .up{
+                left: 200px;
+                top: 550px;
+            }
+            .down{
+                left: 200px;
+                top: 600px;
+            }
+            .left{
+                left: 100px;
+                top: 550px;
+            }
+            .right{
+                left: 300px;
+                top: 550px;
+            }
+        </style>
+    </body>
+</html>
