@@ -1,0 +1,10 @@
+<canvas id="c"></canvas><br><button onclick="d=2"><<button onclick="d=0">^<button onclick="d=1">V<button onclick="d=3">>
+<script>c=document.getElementById('c'),t=c.getContext('2d'),
+s=100,p=5,c.width=s,c.height=s,r=()=>{return Math.floor(Math.random()*s/p)},j=0,x=[10],y=[10],d=0,X=r(),Y=r(),F=(z,w,q)=>{t.fillRect(z*q,w*q,q,q)},
+i=setInterval(()=>{t.fillStyle='tan';F(0,0,s);
+x.unshift((d==0)?x[0]:(d==1)?x[0]:(d==2)?x[0]-1:x[0]+1);y.unshift((d==0)?y[0]-1:(d==1)?y[0]+1:(d==2)?y[0]:y[0]);
+if(x[0]<0||y[0]<0||x[0]>s/p||y[0]>s/p)clearInterval(i);
+if(x[0]==X&&y[0]==Y){X=r();Y=r()}else{x.pop();y.pop()}
+j=0;while(j<y.length){t.fillStyle='red';
+if(j>0&&x[0]==x[j]&&y[0]==y[j])clearInterval(i);
+F(x[j],y[j],p);j++}F(X,Y,p)},500)</script>
